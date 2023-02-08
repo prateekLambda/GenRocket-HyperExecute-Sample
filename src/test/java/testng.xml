@@ -6,7 +6,7 @@
     <test name="Chrome">
         <parameter name="browser" value="Chrome"/>
         <parameter name="version" value="latest"/>
-        <parameter name="platform" value="MacOs catlaina"/>
+        <parameter name="platform" value="linux"/>
 
         <classes>
             <class name="Uploadtest"/>

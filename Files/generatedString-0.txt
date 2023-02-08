@@ -1,0 +1,1 @@
+Capabilities {browserName: Chrome, build: TestNG Frameworknull, driver_version: 4.0.0, ie.edgechromium: true, name: testName-2, network: false, se:ieOptions: {ie.edgechromium: true}, selenium_version: 4.0.0, version: latest, video: true, visual: true}

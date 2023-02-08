@@ -1,0 +1,10 @@
+<project>
+  ...
+  <repositories>
+    <repository>
+      <id>my-internal-site</id>
+      <url>./localmaven</url>
+    </repository>
+  </repositories>
+  ...
+</project>

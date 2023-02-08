@@ -1,0 +1,30 @@
+version: 0.1
+globalTimeout: 100
+testSuiteTimeout: 10
+testSuiteStep: 100
+retryOnFailure: true
+maxRetries: 1
+vars:
+  path: src/test/java/testng.xml
+
+jobLabel: ['GenRocket','HyperExecute']
+runson: linux
+autosplit: true
+concurrency: 1
+testDiscovery:
+  type: raw
+  mode: static
+  command: grep 'test name' ${path} | awk '{print$2}' | sed 's/name=//g' | sed 's/\x3e//g'
+
+testRunnerCommand: mvn clean test -Dmaven.repo.local=./.m2 dependency:resolve -DselectedTests="$test"
+pre:
+  - mkdir /home/ltuser/.genrocket
+  - cp *****Profile.grp /home/ltuser/.genrocket
+  - mvn -Dmaven.repo.local=./.m2 dependency:resolve
+post:
+
+cacheKey: '{{ checksum "pom.xml" }}'
+cacheDirectories:
+  - .m2
+
+

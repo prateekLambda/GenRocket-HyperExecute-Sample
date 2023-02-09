@@ -1,3 +1,7 @@
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.nimbusds.jose.shaded.json.JSONArray;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.time.StopWatch;
@@ -118,7 +122,28 @@ public class Uploadtest {
 
             String jsonStr = JSONArray.toJSONString(test);
             System.out.println("Genrocket  API output"+jsonStr);
-            driver.get("https://www.google.com");
+            Gson gson = new Gson();
+            JsonArray jsonArray = gson.fromJson(jsonStr, JsonArray.class);
+
+            // create an ArrayList to store the values of the "URL" key
+            ArrayList<String> urlList = new ArrayList<>();
+
+            // loop through the elements in the jsonArray
+            for (JsonElement jsonElement : jsonArray) {
+                JsonObject jsonObject = jsonElement.getAsJsonObject();
+                String url = jsonObject.get("URL").getAsString();
+                urlList.add(url);
+            }
+            System.out.printf(String.valueOf(urlList));
+            for (String url : urlList) {
+                // navigate to each URL in the list
+                driver.get("https://"+url);
+                Thread.sleep(2000);
+
+                // perform any necessary actions on the page, such as clicking buttons or filling out forms
+
+                // ...
+            }
 
             String FilePath;
             DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy h-m-s");

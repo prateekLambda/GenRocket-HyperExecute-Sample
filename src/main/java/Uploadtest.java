@@ -112,38 +112,31 @@ public class Uploadtest {
     @Test()
     public void test1() {
         try {
-            String scenario = "TestDataScenario.grs";
-            String domainName = "TestData";
-            System.out.println("GENROCKET LICESNCE ACTIVATED");
+             JSONParser parser = new JSONParser();
 
-            EngineAPI engine= new EngineManual();
-            engine.scenarioLoad(scenario);
-            List<Object> test=  engine.scenarioRunInMemory(domainName);
+            try (FileReader reader = new FileReader("Userdata.json")) {
+                // Parse the JSON file into a JSON object
+                Object obj = parser.parse(reader);
+                JSONObject jsonObject = (JSONObject) obj;
 
-            String jsonStr = JSONArray.toJSONString(test);
-            System.out.println("Genrocket  API output"+jsonStr);
-            Gson gson = new Gson();
-            JsonArray jsonArray = gson.fromJson(jsonStr, JsonArray.class);
+                // Get the value of a key from the JSON object
+                String username = (String) jsonObject.get("username");
+                String password = (String) jsonObject.get("password");
 
-            // create an ArrayList to store the values of the "URL" key
-            ArrayList<String> urlList = new ArrayList<>();
 
-            // loop through the elements in the jsonArray
-            for (JsonElement jsonElement : jsonArray) {
-                JsonObject jsonObject = jsonElement.getAsJsonObject();
-                String url = jsonObject.get("URL").getAsString();
-                urlList.add(url);
+                driver.get("https://www.lambdatest.com/automation-demos");
+                Thread.sleep(9000);
+                driver.findElement(By.id("username")).sendKeys(username);
+                Thread.sleep(9000);
+                driver.findElement(By.id("password")).sendKeys(password);
+                Thread.sleep(10000);
+                driver.findElement(By.cssSelector("#newapply > div.w-360.ml-auto.text-center.smtablet\\:w-full.smtablet\\:ml-0 > button")).click();
+
             }
-            System.out.printf(String.valueOf(urlList));
-            for (String url : urlList) {
-                // navigate to each URL in the list
-                driver.get("https://"+url);
-                Thread.sleep(2000);
-
-                // perform any necessary actions on the page, such as clicking buttons or filling out forms
-
-                // ...
+            catch (Exception e){
+                System.out.println(e);
             }
+
 
             String FilePath;
             DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy h-m-s");
@@ -162,6 +155,40 @@ public class Uploadtest {
             status = "failed";
         }
     }
+     @Test
+  public void testTwo(){
+        try {
+            String csvFile = "Sample.csv";
+            String line = "";
+            String csvSplitBy = ",";
+            int usernameIndex = 0;
+            int passwordIndex = 1;
+
+            try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+                while ((line = br.readLine()) != null) {
+                    String[] data = line.split(csvSplitBy);
+                    String username = data[usernameIndex];
+                    String password = data[passwordIndex];
+                    System.out.println("Username: " + username + ", Password: " + password);
+                    driver.get("https://www.lambdatest.com/automation-demos");
+                    Thread.sleep(9000);
+                    driver.findElement(By.id("username")).sendKeys(username);
+                    Thread.sleep(9000);
+                    driver.findElement(By.id("password")).sendKeys(username);
+                    Thread.sleep(10000);
+                    driver.findElement(By.cssSelector("#newapply > div.w-360.ml-auto.text-center.smtablet\\:w-full.smtablet\\:ml-0 > button")).click();
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }
+
+   }
+
 
 
     @AfterMethod

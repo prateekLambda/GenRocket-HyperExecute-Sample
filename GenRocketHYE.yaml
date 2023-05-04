@@ -18,8 +18,6 @@ testDiscovery:
 
 testRunnerCommand: mvn clean test -Dmaven.repo.local=./.m2 dependency:resolve -DselectedTests="$test"
 pre:
-  - mkdir /home/ltuser/.genrocket
-  - cp *****Profile.grp /home/ltuser/.genrocket
   - mvn -Dmaven.repo.local=./.m2 dependency:resolve
 post:
 
